@@ -1,0 +1,29 @@
+kind: Service 
+apiVersion: v1
+metadata:
+  name: cd-slides-example-svc
+spec:
+  selector:
+    app: cd-slides-example
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: cd-slides-example
+spec:
+  template:
+    metadata:
+      labels:
+        app: cd-slides-example
+      annotations:
+        kubernetes.io/change-cause: $IMAGE_NAME
+    spec:
+      containers:
+        - name: cd-slides-example
+          image: $IMAGE_NAME
+          ports:
+          - containerPort: 80

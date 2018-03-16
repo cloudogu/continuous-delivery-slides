@@ -4,14 +4,16 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>continuous-delivery-slides-example</title>
 
-		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/cloudogu.css">
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/monokai.css">
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+
+
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -25,23 +27,31 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section data-markdown="docs/slides/01-intro.md" 							data-separator-vertical="^\r?\n\r?\n\r?\n"></section>
+				<section data-markdown="docs/slides/02-furtherToTheRight.md" 				data-separator-vertical="^\r?\n\r?\n\r?\n"></section>
 			</div>
 		</div>
 
+		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
+
+		<script src="lib/fontawesome/index.js"></script>
+		<script src="lib/fontawesome-free-brands/index.js"></script>
+		<script src="lib/fontawesome-free-solid/index.js"></script>
 
 		<script>
 			// More info about config & dependencies:
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
-				dependencies: [
+				history: true,
+                // Use the default (h.v), because the printed version will always have this anyway
+                slideNumber: 'true',
+                dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true }
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
 			});
 		</script>
