@@ -1,15 +1,21 @@
 ## Separate files are placed to the right
 
-Don't forget to add them to `index.html'!
+Don't forget to add the markdown to `index.html`!
 
 ### Images
 
-<!-- .slide: data-background-image="css/images/logo3.png" data-background-size="10%" -->
+<!-- .slide: data-background-image="css/images/logo.png" data-background-size="50%" -->
 <!-- .slide: style="text-align: left;" -->
  
+Image via Markdown
 ![image](css/images/logo3.png)
 
 <img src="css/images/logo3.png" class="floatLeft" width=20% />
+<img src="css/images/logo1.png" class="floatRight" width=20% />
+The images are floating right and left of this text via css
+
+
+
 
 
 
