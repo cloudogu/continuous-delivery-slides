@@ -25,8 +25,11 @@ node('docker') {
 
         String versionName = createVersion(mvn)
 
+
         stage('Build') {
-            new Docker(this).image('kkarczmarczyk/node-yarn:8.0-wheezy').mountJenkinsUser().inside {
+            new Docker(this).image('kkarczmarczyk/node-yarn:8.0-wheezy').mountJenkinsUser()
+              // override entrypoint, because of https://issues.jenkins-ci.org/browse/JENKINS-41316
+              .inside('--entrypoint=""') {
                 echo 'Building presentation'
                 sh 'yarn install'
                 sh 'node_modules/grunt/bin/grunt package'
@@ -35,7 +38,9 @@ node('docker') {
 
         stage('package') {
             // This could probably be done easier...
-            docker.image('garthk/unzip').inside {
+            docker.image('garthk/unzip')
+               // override entrypoint, because of https://issues.jenkins-ci.org/browse/JENKINS-41316
+              .inside('--entrypoint=""') {
                 sh 'unzip reveal-js-presentation.zip -d dist'
             }
 
