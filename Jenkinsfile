@@ -73,7 +73,7 @@ node('docker') {
         }
     }
 
-    mailIfStatusChanged(findEmailRecipients(defaultEmailRecipients))
+    mailIfStatusChanged(git.commitAuthorEmail)
 }
 
 String createVersion(Maven mvn) {
