@@ -60,7 +60,7 @@ node('docker') {
             withCredentials([usernamePassword(credentialsId: 'jenkins',
                     passwordVariable: passwordProperty, usernameVariable: usernameProperty)]) {
 
-                mvn "site:deploy -s \"${settingsXmlPath}\" "
+                mvn "site:deploy -s \"${settingsXmlPath}\" -Dartifact=${env.BRANCH_NAME}"
             }
         }
 

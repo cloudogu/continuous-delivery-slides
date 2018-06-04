@@ -4,8 +4,8 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.cloudogu.continuous-delivery-slides-example</groupId>
-    <artifactId>continuous-delivery-slides-example</artifactId>
+    <groupId>com.cloudogu.slides</groupId>
+    <artifactId>${artifact}</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
 
@@ -23,6 +23,8 @@
     <properties>
         <!-- Default version if not set via -Drevision. See http://maven.apache.org/maven-ci-friendly.html -->
         <revision>-SNAPSHOT</revision>
+        <!-- Can be overwritten using -Dartifact -->
+        <artifact>template</artifact>
     </properties>
 
     <build>
