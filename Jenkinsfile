@@ -1,5 +1,5 @@
 #!groovy
-@Library('github.com/cloudogu/ces-build-lib@b5ce9f1')
+@Library('github.com/cloudogu/ces-build-lib@f14b63d')
 import com.cloudogu.ces.cesbuildlib.*
 
 node('docker') {
@@ -25,7 +25,6 @@ node('docker') {
 
         String versionName = createVersion(mvn)
 
-
         stage('Build') {
             new Docker(this).image('kkarczmarczyk/node-yarn:8.0-wheezy').mountJenkinsUser()
               // override entrypoint, because of https://issues.jenkins-ci.org/browse/JENKINS-41316
@@ -44,7 +43,11 @@ node('docker') {
                 sh 'unzip reveal-js-presentation.zip -d dist'
             }
 
-            writeVersionNameToIntroSlide(versionName)
+            writeVersionNameToIntroSlide()
+        }
+
+        stage('Deploy GH Pages') {
+            pushGitHubPagesBranch('cesmarvin', 'dist', versionName)
         }
 
         stage('Deploy Nexus') {
@@ -90,14 +93,14 @@ String createVersion(Maven mvn) {
     return versionName
 }
 
-private void writeVersionNameToIntroSlide(String versionName) {
+private void writeVersionNameToIntroSlide() {
+    String versionName
     def distIntro = 'dist/docs/slides/01-intro.md'
     def originalIntro = 'docs/slides/01-intro.md'
     String filteredIntro = filterFile(distIntro, "<!--VERSION-->", "Stand: $versionName")
     sh "cp $filteredIntro $distIntro"
     sh "mv $filteredIntro $originalIntro"
 }
-
 
 void deployToKubernetes(String versionName) {
 
@@ -132,4 +135,16 @@ String filterFile(String filePath, String expression, String replace) {
     String filteredFilePath = filePath + ".filtered"
     sh "cat ${filePath} | sed 's/${expression}/${replace}/g' > ${filteredFilePath}"
     return filteredFilePath
+}
+
+void pushGitHubPagesBranch(String credentials, String workspaceFolder, String commitMessage) {
+    dir('.gh-pages') {
+        git url: git.repositoryUrl, branch: 'gh-pages', changelog: false, poll: false, credentialsId: credentials
+        git.credentials = credentials
+
+        sh "cp -rf ../${workspaceFolder}/* ."
+        git.add '.'
+        git.commit commitMessage
+        git.push 'gh-pages'
+    }
 }
