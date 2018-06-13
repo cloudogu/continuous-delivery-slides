@@ -16,7 +16,7 @@ node('docker') {
     catchError {
 
         Maven mvn = new MavenInDocker(this, "3.5.0-jdk-8")
-        Git git = new Git(this)
+        git = new Git(this)
 
         stage('Checkout') {
             checkout scm
@@ -79,6 +79,8 @@ node('docker') {
     mailIfStatusChanged(git.commitAuthorEmail)
 }
 
+Git git
+
 String createVersion(Maven mvn) {
     // E.g. "201708140933-1674930"
     String versionName = "${new Date().format('yyyyMMddHHmm')}-${new Git(this).commitHashShort}"
@@ -139,7 +141,7 @@ String filterFile(String filePath, String expression, String replace) {
 
 void pushGitHubPagesBranch(String credentials, String workspaceFolder, String commitMessage) {
     dir('.gh-pages') {
-        git url: git.repositoryUrl, branch: 'gh-pages', changelog: false, poll: false, credentialsId: credentials
+        this.git url: git.repositoryUrl, branch: 'gh-pages', changelog: false, poll: false, credentialsId: credentials
         git.credentials = credentials
 
         sh "cp -rf ../${workspaceFolder}/* ."
