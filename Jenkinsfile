@@ -1,7 +1,7 @@
 #!groovy
 
 //Keep this version in sync with the one used in Maven.pom-->
-@Library('github.com/cloudogu/ces-build-lib@896605a')
+@Library('github.com/cloudogu/ces-build-lib@bc4b83b')
 import com.cloudogu.ces.cesbuildlib.*
 
 node('docker') {
@@ -13,9 +13,7 @@ node('docker') {
             disableConcurrentBuilds()
     ])
 
-    String defaultEmailRecipients = env.EMAIL_RECIPIENTS
-
-    Git git = new Git(this)
+    Git git = new Git(this, 'cesmarvin')
 
     catchError {
 
@@ -50,7 +48,7 @@ node('docker') {
         }
 
         stage('Deploy GH Pages') {
-            pushGitHubPagesBranch('cesmarvin', 'dist', versionName)
+            git.pushGitHubPagesBranch('dist', versionName)
         }
 
         stage('Deploy Nexus') {
@@ -138,16 +136,4 @@ String filterFile(String filePath, String expression, String replace) {
     String filteredFilePath = filePath + ".filtered"
     sh "cat ${filePath} | sed 's/${expression}/${replace}/g' > ${filteredFilePath}"
     return filteredFilePath
-}
-
-void pushGitHubPagesBranch(String credentials, String workspaceFolder, String commitMessage) {
-    dir('.gh-pages') {
-        Git git = new Git(this, credentials)
-        git url: git.repositoryUrl, branch: 'gh-pages', changelog: false, poll: false
-
-        sh "cp -rf ../${workspaceFolder}/* ."
-        git.add '.'
-        git.commit commitMessage
-        git.push 'gh-pages'
-    }
 }
