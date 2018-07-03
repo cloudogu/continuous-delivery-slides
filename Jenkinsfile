@@ -1,5 +1,7 @@
 #!groovy
-@Library('github.com/cloudogu/ces-build-lib@f14b63d')
+
+//Keep this version in sync with the one used in Maven.pom-->
+@Library('github.com/cloudogu/ces-build-lib@896605a')
 import com.cloudogu.ces.cesbuildlib.*
 
 node('docker') {
@@ -13,10 +15,11 @@ node('docker') {
 
     String defaultEmailRecipients = env.EMAIL_RECIPIENTS
 
+    Git git = new Git(this)
+
     catchError {
 
         Maven mvn = new MavenInDocker(this, "3.5.0-jdk-8")
-        git = new Git(this)
 
         stage('Checkout') {
             checkout scm
@@ -79,8 +82,6 @@ node('docker') {
     mailIfStatusChanged(git.commitAuthorEmail)
 }
 
-Git git
-
 String createVersion(Maven mvn) {
     // E.g. "201708140933-1674930"
     String versionName = "${new Date().format('yyyyMMddHHmm')}-${new Git(this).commitHashShort}"
@@ -141,8 +142,8 @@ String filterFile(String filePath, String expression, String replace) {
 
 void pushGitHubPagesBranch(String credentials, String workspaceFolder, String commitMessage) {
     dir('.gh-pages') {
-        this.git url: git.repositoryUrl, branch: 'gh-pages', changelog: false, poll: false, credentialsId: credentials
-        git.credentials = credentials
+        Git git = new Git(this, credentials)
+        git url: git.repositoryUrl, branch: 'gh-pages', changelog: false, poll: false
 
         sh "cp -rf ../${workspaceFolder}/* ."
         git.add '.'
