@@ -27,7 +27,7 @@ node('docker') {
         String versionName = createVersion(mvn)
 
         stage('Build') {
-            new Docker(this).image('kkarczmarczyk/node-yarn:8.0-wheezy').mountJenkinsUser()
+            new Docker(this).image('node:8.11.3-jessie').mountJenkinsUser()
               // override entrypoint, because of https://issues.jenkins-ci.org/browse/JENKINS-41316
               .inside('--entrypoint=""') {
                 echo 'Building presentation'
