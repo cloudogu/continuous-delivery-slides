@@ -29,11 +29,21 @@ See [`Jenkinsfile`](Jenkinsfile).
 
 * Makes excessive use of the Jenkins shared library [ces-build-lib](https://github.com/cloudogu/ces-build-lib)
 * Deploys the presentation to
-  * GitHub Pages branch of this repo. To do so, username and password credentials `cesmarving` need to be defined in Jenkins. A best practice is to create an [access token](https://github.com/settings/tokens). These credentials must have write access on the GitHub repo.  
-  See [here](https://cloudogu.github.io/continuous-delivery-slides-example/) for the result.
-  * Nexus site repo defined in [`pom.xml`](pom.xml). To do so username and password credentials `jenkins` need to be defined in Jenkins  These credentials must have write access to the maven site in Nexus.
-  * the Kubernetes cluster identified by the kubeconfig and the Docker registry defined in [`Jenkinsfile`](Jenkinsfile)
+  * GitHub Pages branch of this repo. To do so, username and password credentials `cesmarvin` need to be defined in Jenkins. A best practice is to create an [access token](https://github.com/settings/tokens). These credentials must have write access on the GitHub repo.  
+    See [here](https://cloudogu.github.io/continuous-delivery-slides-example/) for the result.
+  * Nexus site repo defined in [`pom.xml`](pom.xml). 
+    * Username and password credentials `jenkins` need to be defined in Jenkins.  
+    * These credentials must have write access to the maven site in Nexus.
+    * We need a `raw` Repo called `Cloudogu-Docs` in Nexus. 
+  * the Kubernetes cluster identified by the `kubeconfig` and the Docker registry defined in [`Jenkinsfile`](Jenkinsfile)
     * Docker Registry: Requires username and password credentials `gcloud-docker` defined in Jenkins.
-    * Kubernetes: Requires Kubeconfig file defined as Jenkins file credential `kubeconfig-bc-production`.
+    * Kubernetes: Requires `kubeconfig` file defined as Jenkins file credential `kubeconfig-bc-production`. 
+      An example for creating the kubeconfig (using `create-kubeconfig` from [zlabjp/kubernetes-scripts](https://github.com/zlabjp/kubernetes-scripts/blob/master/create-kubeconfig)):
+      ```bash
+      kubectl create namespace jenkins-ns
+      kubectl create serviceaccount jenkins-sa --namespace=jenkins-ns
+      kubectl create rolebinding jenkins-ns-admin --clusterrole=admin --namespace=jenkins-ns --serviceaccount=jenkins-ns:jenkins-sa
+      ./create-kubeconfig jenkins-sa --namespace=jenkins-ns > kubeconfig
+      ```
 * Needs Docker available on the jenkins worker
 * On failure, sends emails to git commiter.
