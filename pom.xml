@@ -10,13 +10,13 @@
     <packaging>pom</packaging>
 
     <!-- maven site url -->
-    <url>https://ecosystem.cloudogu.com/nexus/content/sites/Cloudogu-Docs/${project.groupId}/${project.artifactId}/${project.version}/</url>
+    <url>https://ecosystem.cloudogu.com/nexus/repository/Cloudogu-Docs/${project.groupId}/${project.artifactId}/${project.version}/</url>
 
     <distributionManagement>
         <site>
             <id>ecosystem.cloudogu.com</id>
             <name>site repository ecosystem.cloudogu.com</name>
-            <url>dav:https://ecosystem.cloudogu.com/nexus/content/sites/Cloudogu-Docs/${project.groupId}/${project.artifactId}/${project.version}/</url>
+            <url>dav:https://ecosystem.cloudogu.com/nexus/repository/Cloudogu-Docs/${project.groupId}/${project.artifactId}/${project.version}/</url>
         </site>
     </distributionManagement>
 
