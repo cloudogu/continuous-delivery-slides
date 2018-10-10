@@ -1,0 +1,10 @@
+# Ignore all
+**
+# Whiteliste
+!index.html
+!css/**
+!docs/**
+!images/**
+!js/**
+!lib/**
+!plugin/**
