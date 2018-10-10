@@ -3,7 +3,7 @@
 to continuous-delivery-slides-example
 
 <font color="black">
-    Stand: 201808011018-8d7dccc
+    Stand: 201810100615-8d7dccc
 </font>
 
 Realised using [reveal.js](https://github.com/hakimel/reveal.js/).
