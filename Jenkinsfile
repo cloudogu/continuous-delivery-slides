@@ -10,7 +10,11 @@ node('docker') {
             // Keep only the last 10 build to preserve space
             buildDiscarder(logRotator(numToKeepStr: '10')),
             // Don't run concurrent builds for a branch, because they use the same workspace directory
-            disableConcurrentBuilds()
+            disableConcurrentBuilds(),
+            parameters([
+                    booleanParam(name: 'deployToNexus', defaultValue: false,
+                            description: 'Deploying to Nexus tages ~10 Min since Nexus 3. That\'s why we skip it be default'),
+            ])
     ])
 
     Git git = new Git(this, 'cesmarvin')
@@ -52,19 +56,21 @@ node('docker') {
         }
 
         stage('Deploy Nexus') {
-            String usernameProperty = "site_username"
-            String passwordProperty = "site_password"
+            if (params.deployToNexus) {
+                String usernameProperty = "site_username"
+                String passwordProperty = "site_password"
 
-            String settingsXmlPath = mvn.writeSettingsXmlWithServer(
-                    // From pom.xml
-                    'ecosystem.cloudogu.com',
-                    "\${env.${usernameProperty}}",
-                    "\${env.${passwordProperty}}")
+                String settingsXmlPath = mvn.writeSettingsXmlWithServer(
+                        // From pom.xml
+                        'ecosystem.cloudogu.com',
+                        "\${env.${usernameProperty}}",
+                        "\${env.${passwordProperty}}")
 
-            withCredentials([usernamePassword(credentialsId: 'jenkins',
-                    passwordVariable: passwordProperty, usernameVariable: usernameProperty)]) {
+                withCredentials([usernamePassword(credentialsId: 'jenkins',
+                        passwordVariable: passwordProperty, usernameVariable: usernameProperty)]) {
 
-                mvn "site:deploy -s \"${settingsXmlPath}\" -Dartifact=${env.BRANCH_NAME}"
+                    mvn "site:deploy -s \"${settingsXmlPath}\" -Dartifact=${env.BRANCH_NAME}"
+                }
             }
         }
 
