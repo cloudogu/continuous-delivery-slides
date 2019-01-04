@@ -125,7 +125,8 @@ module.exports = function(grunt) {
 					'lib/**',
 					'images/**',
 					'plugin/**',
-					'docs/slides/**.md'
+					'docs/slides/**.md',
+					'favicon.ico'
 				],
 				dest: 'reveal-js-presentation.zip'
 			}
