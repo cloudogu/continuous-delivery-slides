@@ -26,4 +26,11 @@ spec:
         - name: cd-slides-example
           image: $IMAGE_NAME
           ports:
-          - containerPort: 80
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: 100m
+              memory: 64Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
