@@ -140,6 +140,7 @@ void deployToKubernetes(String versionName) {
  */
 String filterFile(String filePath, String expression, String replace) {
     String filteredFilePath = filePath + ".filtered"
-    sh "cat ${filePath} | sed 's/${expression}/${replace}/g' > ${filteredFilePath}"
+    // Set -e = set -o pipefail -> Fail command (and build) when cat fails, e.g. because file not present
+    sh "set -e && cat ${filePath} | sed 's/${expression}/${replace}/g' > ${filteredFilePath}"
     return filteredFilePath
 }
