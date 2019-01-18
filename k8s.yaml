@@ -15,6 +15,9 @@ apiVersion: extensions/v1beta1
 metadata:
   name: cd-slides-example
 spec:
+  selector:
+    matchLabels:
+      app: cd-slides-example
   template:
     metadata:
       labels:
