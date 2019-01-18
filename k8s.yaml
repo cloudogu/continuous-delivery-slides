@@ -1,14 +1,14 @@
 kind: Service 
 apiVersion: v1
 metadata:
-  name: cd-slides-example-svc
+  name: cd-slides-example
 spec:
   selector:
     app: cd-slides-example
   ports:
     - port: 80
       targetPort: 80
-  type: LoadBalancer
+  type: ClusterIP
 ---
 kind: Deployment
 apiVersion: extensions/v1beta1
@@ -34,3 +34,20 @@ spec:
             requests:
               cpu: 100m
               memory: 64Mi
+---
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: cd-slides-example
+  namespace: bc-production
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: continuous-delivery-slides-example.cloudogu.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: cd-slides-example
+              servicePort: 80
