@@ -40,3 +40,10 @@ Link to [previous slide](#/font) (by id)
 ### Video
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/4ht22ReBjno" allow="encrypted-media" allowfullscreen></iframe>
+
+
+
+### Different css on `document` of the slide
+
+<!-- .slide: data-state="black-gradient" -->
+Nice gradient! 
