@@ -19,6 +19,8 @@ node('docker') {
             ])
     ])
 
+    titleSlidePath   = 'docs/slides/01-intro.md'
+
     Git git = new Git(this, 'cesmarvin')
 
     catchError {
@@ -50,7 +52,7 @@ node('docker') {
                 sh 'unzip reveal-js-presentation.zip -d dist'
             }
 
-            writeVersionNameToIntroSlide()
+            writeVersionNameToIntroSlide(versionName)
         }
 
         stage('Deploy GH Pages') {
@@ -102,13 +104,13 @@ String createVersion(Maven mvn) {
     return versionName
 }
 
-private void writeVersionNameToIntroSlide() {
-    String versionName
-    def distIntro = 'dist/docs/slides/01-intro.md'
-    def originalIntro = 'docs/slides/01-intro.md'
-    String filteredIntro = filterFile(distIntro, "<!--VERSION-->", "Stand: $versionName")
+def titleSlidePath = ''
+
+private void writeVersionNameToIntroSlide(String versionName) {
+    def distIntro = "dist/${titleSlidePath}"
+    String filteredIntro = filterFile(distIntro, "<!--VERSION-->", "Version: $versionName")
     sh "cp $filteredIntro $distIntro"
-    sh "mv $filteredIntro $originalIntro"
+    sh "mv $filteredIntro $titleSlidePath"
 }
 
 void deployToKubernetes(String versionName) {
@@ -142,7 +144,8 @@ void deployToKubernetes(String versionName) {
  */
 String filterFile(String filePath, String expression, String replace) {
     String filteredFilePath = filePath + ".filtered"
-    // Set -e = set -o pipefail -> Fail command (and build) when cat fails, e.g. because file not present
-    sh "set -e && cat ${filePath} | sed 's/${expression}/${replace}/g' > ${filteredFilePath}"
+    // Fail command (and build) file not present
+    sh "test -e ${filePath} || (echo Title slide ${filePath} not found && return 1)"
+    sh "cat ${filePath} | sed 's/${expression}/${replace}/g' > ${filteredFilePath}"
     return filteredFilePath
 }
