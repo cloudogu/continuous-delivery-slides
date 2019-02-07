@@ -14,6 +14,8 @@ node('docker') {
             parameters([
                     booleanParam(name: 'deployToNexus', defaultValue: false,
                             description: 'Deploying to Nexus tages ~10 Min since Nexus 3. That\'s why we skip it be default'),
+                    booleanParam(name: 'deployToK8s', defaultValue: false,
+                            description: 'Deploys to Kubernetes. We deploy to GitHub pages, so skip deploying to k8s by default.')
             ])
     ])
 
@@ -75,10 +77,10 @@ node('docker') {
         }
 
         stage('Deploy Kubernetes') {
-            if (env.BRANCH_NAME == 'master') {
+            if (params.deployToK8s) {
                 deployToKubernetes(versionName)
             } else {
-                echo "Skipping deployment to Kubernetes because current branch is ${env.BRANCH_NAME}."
+                echo "Skipping deployment to Kubernetes because parameter is set to false."
             }
         }
     }
