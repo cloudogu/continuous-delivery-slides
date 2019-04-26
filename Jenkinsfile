@@ -45,7 +45,7 @@ node('docker') {
         }
 
         stage('package') {
-            // This could probably be done easier...
+            // "unzip" is not installed by default on many systems, so use it within a container
             docker.image('garthk/unzip')
                // override entrypoint, because of https://issues.jenkins-ci.org/browse/JENKINS-41316
               .inside('--entrypoint=""') {
