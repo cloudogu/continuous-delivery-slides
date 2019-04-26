@@ -19,7 +19,7 @@ node('docker') {
             ])
     ])
 
-    titleSlidePath   = 'docs/slides/01-intro.md'
+    def introSlidePath = 'docs/slides/01-intro.md'
 
     Git git = new Git(this, 'cesmarvin')
 
@@ -35,7 +35,7 @@ node('docker') {
         String versionName = createVersion(mvn)
 
         stage('Build') {
-            new Docker(this).image('node:8.11.3-jessie').mountJenkinsUser()
+            docker.image('node:8.11.3-jessie')
               // override entrypoint, because of https://issues.jenkins-ci.org/browse/JENKINS-41316
               .inside('--entrypoint=""') {
                 echo 'Building presentation'
@@ -52,7 +52,7 @@ node('docker') {
                 sh 'unzip reveal-js-presentation.zip -d dist'
             }
 
-            writeVersionNameToIntroSlide(versionName)
+            writeVersionNameToIntroSlide(versionName, introSlidePath)
         }
 
         stage('Deploy GH Pages') {
@@ -104,13 +104,11 @@ String createVersion(Maven mvn) {
     return versionName
 }
 
-def titleSlidePath = ''
-
-private void writeVersionNameToIntroSlide(String versionName) {
-    def distIntro = "dist/${titleSlidePath}"
+private void writeVersionNameToIntroSlide(String versionName, String introSlidePath) {
+    def distIntro = "dist/${introSlidePath}"
     String filteredIntro = filterFile(distIntro, "<!--VERSION-->", "Version: $versionName")
     sh "cp $filteredIntro $distIntro"
-    sh "mv $filteredIntro $titleSlidePath"
+    sh "mv $filteredIntro $introSlidePath"
 }
 
 void deployToKubernetes(String versionName) {
@@ -144,7 +142,7 @@ void deployToKubernetes(String versionName) {
  */
 String filterFile(String filePath, String expression, String replace) {
     String filteredFilePath = filePath + ".filtered"
-    // Fail command (and build) file not present
+    // Fail command (and build) if file not present
     sh "test -e ${filePath} || (echo Title slide ${filePath} not found && return 1)"
     sh "cat ${filePath} | sed 's/${expression}/${replace}/g' > ${filteredFilePath}"
     return filteredFilePath
