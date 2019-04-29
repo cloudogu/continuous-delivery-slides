@@ -1,7 +1,7 @@
 #!groovy
 
 //Keep this version in sync with the one used in Maven.pom-->
-@Library('github.com/cloudogu/ces-build-lib@bc4b83b')
+@Library('github.com/cloudogu/ces-build-lib@3a920a43')
 import com.cloudogu.ces.cesbuildlib.*
 
 node('docker') {
@@ -61,20 +61,15 @@ node('docker') {
 
         stage('Deploy Nexus') {
             if (params.deployToNexus) {
-                String usernameProperty = "site_username"
-                String passwordProperty = "site_password"
 
-                String settingsXmlPath = mvn.writeSettingsXmlWithServer(
-                        // From pom.xml
-                        'ecosystem.cloudogu.com',
-                        "\${env.${usernameProperty}}",
-                        "\${env.${passwordProperty}}")
+                mvn.useDeploymentRepository([
+                        // Must match the one in pom.xml!
+                        id: 'ecosystem.cloudogu.com',
+                        credentialsId: 'jenkins'
+                ])
 
-                withCredentials([usernamePassword(credentialsId: 'jenkins',
-                        passwordVariable: passwordProperty, usernameVariable: usernameProperty)]) {
-
-                    mvn "site:deploy -s \"${settingsXmlPath}\" -Dartifact=${env.BRANCH_NAME}"
-                }
+                // Artifact is used in pom.xml
+                mvn.deploySiteToNexus("-Dartifact=${env.BRANCH_NAME} ")
             }
         }
 
