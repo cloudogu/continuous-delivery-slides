@@ -70,6 +70,8 @@ node('docker') {
 
                 // Artifact is used in pom.xml
                 mvn.deploySiteToNexus("-Dartifact=${env.BRANCH_NAME} ")
+            } else {
+                echo "Skipping deployment to Nexus because parameter is set to false."
             }
         }
 
