@@ -6,14 +6,12 @@
 
 		<title>continuous-delivery-slides-example</title>
 
+		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/cloudogu.css">
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
-
-
-
+		<link rel="stylesheet" href="lib/css/monokai.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -32,7 +30,6 @@
 			</div>
 		</div>
 
-		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
 
 		<script src="lib/fontawesome-free/js/all.min.js"></script>
@@ -43,13 +40,13 @@
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
 				history: true,
-                // Use the default (h.v), because the printed version will always have this anyway
-                slideNumber: 'true',
-                dependencies: [
+				// Use the default (h.v), because the printed version will always have this anyway
+				slideNumber: 'true',
+				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'plugin/highlight/highlight.js', async: true }
 				]
 			});
 		</script>
