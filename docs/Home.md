@@ -35,6 +35,15 @@ Run only once
 * The command does not return and watches the resources (slides, index, css, js) for changes. Seems not work on Windows.
 * Reloads automatically on change (no refreshing necessary in the browser)
 
+# Update reveal.js version
+
+```bash
+git remote add reveal https://github.com/hakimel/reveal.js.git 
+git pull reveal master
+```
+
+Better use merge here, because rebase leads to changed history and no option to reproducte what happend in the past.
+
 # Print slides / create PDF 
 
 ## Official
