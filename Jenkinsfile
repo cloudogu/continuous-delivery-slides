@@ -35,13 +35,14 @@ node('docker') {
         String versionName = createVersion(mvn)
 
         stage('Build') {
-            docker.image('node:11.14.0-stretch')
-              // ove rride entrypoint, because of https://issues.jenkins-ci.org/browse/JENKINS-41316
-              .inside('--entrypoint=""') {
+            new Docker(this).image('node:11.14.0-alpine')
+              // Avoid  EACCES: permission denied, mkdir '/.npm'
+              .mountJenkinsUser()
+              .inside {
                 echo 'Building presentation'
-                sh 'yarn install'
-                  // Don't run tests, because we're not developing reveal here
-                  sh 'node_modules/grunt/bin/grunt package --skipTests'
+                sh 'npm install'
+                // Don't run tests, because we're not developing reveal here
+                sh 'node_modules/grunt/bin/grunt package --skipTests'
             }
         }
 

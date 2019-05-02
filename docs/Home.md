@@ -18,18 +18,18 @@ See also [reveal.js wiki](https://github.com/hakimel/reveal.js/wiki/Keyboard-Sho
 
 ## Run locally
 
-Either open `index.html` in a browser (no hot-reload) or use yarn/npm nutzen (see bellow).
+Either open `index.html` in a browser (no hot-reload) or use npm nutzen (see bellow).
 
-### Install yarn and dependencies
+### Install node.js and dependencies
 
 Run only once
 
-* Install `yarn` (also possible via npm, but deprecated)
-* Run `yarn install`
+* Install node.js
+* Run `npm install`
 
 ### Start server for hot reload
 
-`yarn start`  
+`npm run start`  
 
 * Starts web server with presentation on http://localhost:8000.
 * The command does not return and watches the resources (slides, index, css, js) for changes. Seems not work on Windows.
