@@ -35,7 +35,7 @@ node('docker') {
         String versionName = createVersion(mvn)
 
         stage('Build') {
-            docker.image('node:8.11.3-jessie')
+            docker.image('node:10.15.3-stretch')
               // override entrypoint, because of https://issues.jenkins-ci.org/browse/JENKINS-41316
               .inside('--entrypoint=""') {
                 echo 'Building presentation'

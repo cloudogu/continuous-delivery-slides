@@ -112,6 +112,19 @@ module.exports = grunt => {
 			}
 		},
 
+        copy: {
+            main: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'node_modules/@fortawesome/',
+                        src: '**',
+                        dest: 'lib/'
+                    }
+                ]
+            }
+        },
+
 		zip: {
 			bundle: {
 				src: [
@@ -121,7 +134,8 @@ module.exports = grunt => {
 					'lib/**',
 					'images/**',
 					'plugin/**',
-					'**.md'
+					'docs/slides/**.md',
+                    'favicon.ico'
 				],
 				dest: 'reveal-js-presentation.zip'
 			}
@@ -153,7 +167,9 @@ module.exports = grunt => {
 				files: root.map(path => path + '/*.html')
 			},
 			markdown: {
-				files: root.map(path => path + '/*.md')
+				files: [
+					'docs/slides/**.md',
+				]
 			},
 			options: {
 				livereload: true
@@ -163,7 +179,7 @@ module.exports = grunt => {
 	});
 
 	// Default task
-	grunt.registerTask( 'default', [ 'css', 'js' ] );
+    grunt.registerTask( 'default', [ 'css', 'js', 'fontawesome' ] );
 
 	// JS task
 	grunt.registerTask( 'js', [ 'jshint', 'uglify', 'qunit' ] );
@@ -176,6 +192,8 @@ module.exports = grunt => {
 
 	// All CSS
 	grunt.registerTask( 'css', [ 'sass', 'autoprefixer', 'cssmin' ] );
+
+    grunt.registerTask( 'fontawesome', [ 'copy' ]);
 
 	// Package presentation to archive
 	grunt.registerTask( 'package', [ 'default', 'zip' ] );
