@@ -2,7 +2,7 @@
   "_args": [
     [
       "@fortawesome/fontawesome-free@5.8.1",
-      "/home/jenkins/.jenkins-slave/workspace/s-delivery-slides-example_master"
+      "/tmp/workspace/s-delivery-slides-example_master"
     ]
   ],
   "_from": "@fortawesome/fontawesome-free@5.8.1",
@@ -27,7 +27,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/@fortawesome/fontawesome-free/-/fontawesome-free-5.8.1.tgz",
   "_spec": "5.8.1",
-  "_where": "/home/jenkins/.jenkins-slave/workspace/s-delivery-slides-example_master",
+  "_where": "/tmp/workspace/s-delivery-slides-example_master",
   "author": {
     "name": "Dave Gandy",
     "email": "dave@fontawesome.com",
