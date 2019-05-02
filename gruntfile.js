@@ -178,11 +178,13 @@ module.exports = grunt => {
 
 	});
 
+	var skipTests = grunt.option('skipTests') || false;
+
 	// Default task
     grunt.registerTask( 'default', [ 'css', 'js', 'fontawesome' ] );
 
 	// JS task
-	grunt.registerTask( 'js', [ 'jshint', 'uglify', 'qunit' ] );
+	grunt.registerTask( 'js', skipTests ? [ 'jshint', 'uglify' ] :  [ 'jshint', 'uglify', 'qunit' ] );
 
 	// Theme CSS
 	grunt.registerTask( 'css-themes', [ 'sass:themes' ] );

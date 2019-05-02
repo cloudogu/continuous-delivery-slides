@@ -35,12 +35,13 @@ node('docker') {
         String versionName = createVersion(mvn)
 
         stage('Build') {
-            docker.image('node:10.15.3-stretch')
-              // override entrypoint, because of https://issues.jenkins-ci.org/browse/JENKINS-41316
+            docker.image('node:11.14.0-stretch')
+              // ove rride entrypoint, because of https://issues.jenkins-ci.org/browse/JENKINS-41316
               .inside('--entrypoint=""') {
                 echo 'Building presentation'
                 sh 'yarn install'
-                sh 'node_modules/grunt/bin/grunt package'
+                  // Don't run tests, because we're not developing reveal here
+                  sh 'node_modules/grunt/bin/grunt package --skipTests'
             }
         }
 
