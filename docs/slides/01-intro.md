@@ -3,7 +3,7 @@
 to continuous-delivery-slides-example
 
 <font color="black">
-    Version: 201905031039-a534a45
+    Version: 201905031115-429f6cc
 </font>
 
 Realised using [reveal.js](https://github.com/hakimel/reveal.js/).
