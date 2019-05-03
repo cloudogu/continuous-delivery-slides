@@ -1,7 +1,7 @@
 #!groovy
 
 //Keep this version in sync with the one used in Maven.pom-->
-@Library('github.com/cloudogu/ces-build-lib@76fbd0aa')
+@Library('github.com/cloudogu/ces-build-lib@d57af485')
 import com.cloudogu.ces.cesbuildlib.*
 
 node('docker') {
@@ -22,6 +22,7 @@ node('docker') {
     def introSlidePath = 'docs/slides/01-intro.md'
 
     Git git = new Git(this, 'cesmarvin')
+    Docker docker = new Docker(this)
 
     catchError {
 
@@ -35,7 +36,7 @@ node('docker') {
         String versionName = createVersion(mvn)
 
         stage('Build') {
-            new Docker(this).image('node:11.14.0-alpine')
+            docker.image('node:11.14.0-alpine')
               // Avoid  EACCES: permission denied, mkdir '/.npm'
               .mountJenkinsUser()
               .inside {
@@ -48,9 +49,7 @@ node('docker') {
 
         stage('package') {
             // "unzip" is not installed by default on many systems, so use it within a container
-            docker.image('garthk/unzip')
-               // override entrypoint, because of https://issues.jenkins-ci.org/browse/JENKINS-41316
-              .inside('--entrypoint=""') {
+            docker.image('garthk/unzip').inside {
                 sh 'unzip reveal-js-presentation.zip -d dist'
             }
 
