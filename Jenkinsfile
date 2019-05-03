@@ -67,7 +67,7 @@ node('docker') {
                 mvn.useDeploymentRepository([
                         // Must match the one in pom.xml!
                         id: 'ecosystem.cloudogu.com',
-                        credentialsId: 'jenkins'
+                        credentialsId: 'ces-nexus'
                 ])
 
                 // Artifact is used in pom.xml
@@ -112,14 +112,14 @@ private void writeVersionNameToIntroSlide(String versionName, String introSlideP
 
 void deployToKubernetes(String versionName) {
 
-    String dockerRegistry = 'eu.gcr.io/cloudogu-backend'
-    String imageName = "$dockerRegistry/continuous-delivery-slides-example:${versionName}"
-
-    docker.withRegistry("https://$dockerRegistry", 'gcloud-docker') {
-        docker.build(imageName, '.').push()
+    String imageName = "cloudogu/continuous-delivery-slides-example:${versionName}"
+    def image = docker.build imageName
+    docker.withRegistry('', 'hub.docker.com-cesmarvin') {
+        image.push()
+        image.push('latest')
     }
 
-    withCredentials([file(credentialsId: 'kubeconfig-bc-production', variable: 'kubeconfig')]) {
+    withCredentials([file(credentialsId: 'kubeconfig-oss-deployer', variable: 'kubeconfig')]) {
 
         withEnv(["IMAGE_NAME=$imageName"]) {
 

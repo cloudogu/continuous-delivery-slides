@@ -29,15 +29,22 @@ See [`Jenkinsfile`](Jenkinsfile).
 
 * Makes excessive use of the Jenkins shared library [ces-build-lib](https://github.com/cloudogu/ces-build-lib)
 * Deploys the presentation to
-  * GitHub Pages branch of this repo. To do so, username and password credentials `cesmarvin` need to be defined in Jenkins. A best practice is to create an [access token](https://github.com/settings/tokens). These credentials must have write access on the GitHub repo.  
+  * GitHub Pages branch of this repo. To do so, username and password credentials `cesmarvin` need to be defined in Jenkins. 
+    A best practice is to create an [access token](https://github.com/settings/tokens). These credentials must have write 
+    access on the GitHub repo.  
     See [here](https://cloudogu.github.io/continuous-delivery-slides-example/) for the result.
   * Nexus site repo defined in [`pom.xml`](pom.xml). 
-    * Username and password credentials `jenkins` need to be defined in Jenkins.  
-    * These credentials must have write access to the maven site in Nexus.
+    * Username and password credentials `ces-nexus` need to be defined in Jenkins.  
+    * These credentials must have write access to the maven site in Nexus:
+      * `nx-repository-view-raw-<RepoName>-add` and 
+      * `nx-repository-view-raw-<RepoName>-edit` 
+      * Where `RepoName` is defined in `pom.xml`'s `url` and `distributionManagement.site.url`s (after `/repository/`)
+      * In this example: `nx-repository-view-raw-Cloudogu-Docs-add`
     * We need a `raw` Repo called `Cloudogu-Docs` in Nexus. 
   * the Kubernetes cluster identified by the `kubeconfig` and the Docker registry defined in [`Jenkinsfile`](Jenkinsfile)
-    * Docker Registry: Requires username and password credentials `gcloud-docker` defined in Jenkins.
-    * Kubernetes: Requires `kubeconfig` file defined as Jenkins file credential `kubeconfig-bc-production`. 
+    * Docker Registry: Requires username and password credentials `hub.docker.com-cesmarvin` defined in Jenkins.  
+      In this example the image `cloudogu/continuous-delivery-slides-example` is deployed to Docker Hub.
+    * Kubernetes: Requires `kubeconfig` file defined as Jenkins file credential `kubeconfig-oss-deployer`. 
       An example for creating the kubeconfig (using `create-kubeconfig` from [zlabjp/kubernetes-scripts](https://github.com/zlabjp/kubernetes-scripts/blob/master/create-kubeconfig)):
       ```bash
       kubectl create namespace jenkins-ns
