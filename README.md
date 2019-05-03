@@ -1,4 +1,6 @@
 # continuous-delivery-slides-example
+[![Build Status](https://oss.cloudogu.com/jenkins/buildStatus/icon?job=cloudogu-github%2Fcontinuous-delivery-slides-example%2Fmaster)](https://oss.cloudogu.com/jenkins/job/cloudogu-github/job/continuous-delivery-slides-example/job/master/)
+[![](https://images.microbadger.com/badges/image/cloudogu/continuous-delivery-slides-example.svg)](https://hub.docker.com/r/cloudogu/continuous-delivery-slides-example)
 
 Web-based presentation that features
 
