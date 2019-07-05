@@ -113,7 +113,7 @@ module.exports = grunt => {
 		},
 
         copy: {
-            main: {
+            fontawesome: {
                 files: [
                     {
                         expand: true,
@@ -122,7 +122,18 @@ module.exports = grunt => {
                         dest: 'lib/'
                     }
                 ]
+            },
+            twemoji: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'node_modules/twemoji/dist',
+                        src: '**',
+                        dest: 'lib/'
+                    }
+                ]
             }
+          
         },
 
 		zip: {
@@ -181,7 +192,7 @@ module.exports = grunt => {
 	var skipTests = grunt.option('skipTests') || false;
 
 	// Default task
-    grunt.registerTask( 'default', [ 'css', 'js', 'fontawesome' ] );
+        grunt.registerTask( 'default', [ 'css', 'js', 'fontawesome', 'twemoji' ] );
 
 	// JS task
 	grunt.registerTask( 'js', skipTests ? [ 'jshint', 'uglify' ] :  [ 'jshint', 'uglify', 'qunit' ] );
@@ -195,7 +206,9 @@ module.exports = grunt => {
 	// All CSS
 	grunt.registerTask( 'css', [ 'sass', 'autoprefixer', 'cssmin' ] );
 
-    grunt.registerTask( 'fontawesome', [ 'copy' ]);
+        grunt.registerTask( 'fontawesome', [ 'copy:fontawesome' ]);
+
+        grunt.registerTask( 'twemoji', [ 'copy:twemoji' ]);
 
 	// Package presentation to archive
 	grunt.registerTask( 'package', [ 'default', 'zip' ] );
