@@ -192,7 +192,7 @@ module.exports = grunt => {
 	var skipTests = grunt.option('skipTests') || false;
 
 	// Default task
-        grunt.registerTask( 'default', [ 'css', 'js', 'fontawesome', 'twemoji' ] );
+   grunt.registerTask( 'default', [ 'css', 'js', 'fontawesome', 'twemoji' ] );
 
 	// JS task
 	grunt.registerTask( 'js', skipTests ? [ 'jshint', 'uglify' ] :  [ 'jshint', 'uglify', 'qunit' ] );
@@ -206,9 +206,9 @@ module.exports = grunt => {
 	// All CSS
 	grunt.registerTask( 'css', [ 'sass', 'autoprefixer', 'cssmin' ] );
 
-        grunt.registerTask( 'fontawesome', [ 'copy:fontawesome' ]);
+    grunt.registerTask( 'fontawesome', [ 'copy:fontawesome' ]);
 
-        grunt.registerTask( 'twemoji', [ 'copy:twemoji' ]);
+    grunt.registerTask( 'twemoji', [ 'copy:twemoji' ]);
 
 	// Package presentation to archive
 	grunt.registerTask( 'package', [ 'default', 'zip' ] );
