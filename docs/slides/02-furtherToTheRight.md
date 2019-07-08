@@ -35,7 +35,7 @@ The images are floating right and left of this text via css
 1. List
 
 
-Link to [previous slide](#/font) (by id)
+Link to [previous slide](#font) (by id)
 
 ### Video
 
@@ -47,9 +47,3 @@ Link to [previous slide](#/font) (by id)
 
 <!-- .slide: data-state="black-gradient" -->
 Nice gradient! 
-
-
-
-### How about some emoji⁉
-
-❤️
