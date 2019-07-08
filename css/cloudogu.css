@@ -242,6 +242,13 @@ body {
   border: 0;
   box-shadow: none; }
 
+.reveal section img.emoji {
+   height: 1em;
+   width: 1em;
+   margin: 0 .05em 0 .1em;
+   vertical-align: -0.1em;
+}
+
 .reveal a img {
   -webkit-transition: all .15s linear;
   -moz-transition: all .15s linear;
