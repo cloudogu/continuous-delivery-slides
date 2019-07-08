@@ -20,13 +20,14 @@ node('docker') {
     ])
 
     def introSlidePath = 'docs/slides/01-intro.md'
+    pdfPath ='slides.pdf'
+    nodeImageVersion = 'node:11.14.0-alpine'
 
     Git git = new Git(this, 'cesmarvin')
     Docker docker = new Docker(this)
+    Maven mvn = new MavenInDocker(this, "3.5.0-jdk-8")
 
     catchError {
-
-        Maven mvn = new MavenInDocker(this, "3.5.0-jdk-8")
 
         stage('Checkout') {
             checkout scm
@@ -36,7 +37,7 @@ node('docker') {
         String versionName = createVersion(mvn)
 
         stage('Build') {
-            docker.image('node:11.14.0-alpine')
+            docker.image(nodeImageVersion)
               // Avoid  EACCES: permission denied, mkdir '/.npm'
               .mountJenkinsUser()
               .inside {
@@ -54,6 +55,11 @@ node('docker') {
             }
 
             writeVersionNameToIntroSlide(versionName, introSlidePath)
+        }
+
+        stage('print pdf') {
+            printPdf()
+            archive pdfPath
         }
 
         stage('Deploy GH Pages') {
@@ -88,6 +94,9 @@ node('docker') {
     mailIfStatusChanged(git.commitAuthorEmail)
 }
 
+String nodeImageVersion
+String pdfPath
+
 String createVersion(Maven mvn) {
     // E.g. "201708140933-1674930"
     String versionName = "${new Date().format('yyyyMMddHHmm')}-${new Git(this).commitHashShort}"
@@ -102,11 +111,34 @@ String createVersion(Maven mvn) {
     return versionName
 }
 
-private void writeVersionNameToIntroSlide(String versionName, String introSlidePath) {
+void writeVersionNameToIntroSlide(String versionName, String introSlidePath) {
     def distIntro = "dist/${introSlidePath}"
     String filteredIntro = filterFile(distIntro, "<!--VERSION-->", "Version: $versionName")
     sh "cp $filteredIntro $distIntro"
     sh "mv $filteredIntro $introSlidePath"
+}
+
+void printPdf() {
+    Docker docker = new Docker(this)
+
+    docker.image(nodeImageVersion).withRun(
+            "-v ${WORKSPACE}:/workspace -w /workspace",
+            'npm run start') { revealContainer ->
+
+        def revealIp = docker.findIp(revealContainer)
+        if (!revealIp) {
+            echo "Warning: Couldn't deploy reveal presentation for PDF printing. "
+            echo "Printing docker log:"
+            echo new Sh(this).returnStdOut("docker logs ${revealContainer.id}")
+            error "PDF creation failed"
+        }
+
+        docker.image('yukinying/chrome-headless-browser:77.0.3833.0').inside {
+
+            sh "/usr/bin/google-chrome-unstable --headless --no-sandbox --disable-gpu --print-to-pdf=${pdfPath} " +
+                    "http://${revealIp}:8000/?print-pdf"
+        }
+    }
 }
 
 void deployToKubernetes(String versionName) {
