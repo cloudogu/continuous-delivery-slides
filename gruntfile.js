@@ -129,7 +129,7 @@ module.exports = grunt => {
                         expand: true,
                         cwd: 'node_modules/twemoji/dist',
                         src: '**',
-                        dest: 'lib/'
+                        dest: 'lib/twemoji'
                     }
                 ]
             }

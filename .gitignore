@@ -13,5 +13,6 @@ css/reveal.min.css
 js/reveal.min.js
 reveal-js-presentation.zip
 lib/fontawesome*
+lib/twemoji
 *.swo
 *.swp
