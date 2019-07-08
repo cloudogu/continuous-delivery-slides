@@ -47,3 +47,9 @@ Link to [previous slide](#/font) (by id)
 
 <!-- .slide: data-state="black-gradient" -->
 Nice gradient! 
+
+
+
+### How about some emoji⁉
+
+❤️
