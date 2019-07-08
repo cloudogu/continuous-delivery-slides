@@ -35,7 +35,7 @@ The images are floating right and left of this text via css
 1. List
 
 
-Link to [previous slide](#/font) (by id)
+Link to [previous slide](#font) (by id)
 
 ### Video
 
