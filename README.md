@@ -5,8 +5,13 @@
 Web-based presentation that features
 
 * reveal.js with example slides in markdown,
-* Jenkins continuous delivery pipeline that deploys to Nexus repo, GitHub Pages and Kubernetes,
+* Jenkins continuous delivery pipeline that deploys to Nexus repo, GitHub Pages and Kubernetes.
+* It also creates a PDF export of the slides.
 * Cloudogu corporate design via CSS
+
+You can view the latest version of the presentation 
+* [on the web](https://cloudogu.github.io/continuous-delivery-slides/)  
+* [as PDF](https://oss.cloudogu.com/jenkins/job/cloudogu-github/job/continuous-delivery-slides/job/master/lastSuccessfulBuild/artifact/slides.pdf)
 
 With a git-based wiki such as [Smeagol](https://github.com/cloudogu/smeagol) 
 (see [Blog Post](https://cloudogu.com/blog/smeagol)) you can edit the slides conveniently from the browser. A change there will trigger the  the [Jenkins](https://jenkins.io/) pipeline that deploys to 
