@@ -38,14 +38,14 @@ node('docker') {
 
         stage('Build') {
             docker.image(nodeImageVersion)
-              // Avoid  EACCES: permission denied, mkdir '/.npm'
-              .mountJenkinsUser()
-              .inside {
-                echo 'Building presentation'
-                sh 'npm install'
-                // Don't run tests, because we're not developing reveal here
-                sh 'node_modules/grunt/bin/grunt package --skipTests'
-            }
+            // Avoid  EACCES: permission denied, mkdir '/.npm'
+                    .mountJenkinsUser()
+                    .inside {
+                        echo 'Building presentation'
+                        sh 'npm install'
+                        // Don't run tests, because we're not developing reveal here
+                        sh 'node_modules/grunt/bin/grunt package --skipTests'
+                    }
         }
 
         stage('package') {
@@ -59,7 +59,7 @@ node('docker') {
 
         stage('print pdf') {
             printPdf()
-            archive pdfPath
+            archiveArtifacts pdfPath
         }
 
         stage('Deploy GH Pages') {
