@@ -36,7 +36,6 @@ html {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	color: #5b5a5a !important;
 	text-shadow: 0 0 0 #000 !important;
 }
 
@@ -55,7 +54,6 @@ ul, ol, div, p {
 	margin: auto;
 }
 .reveal {
-	color: #777 !important;
 	width: auto !important;
 	height: auto !important;
 	overflow: hidden !important;
