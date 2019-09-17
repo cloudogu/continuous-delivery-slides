@@ -1,6 +1,6 @@
 # Welcome 
 
-to continuous-delivery-slides-example
+to continuous-delivery-slides
 
 <font color="black">
     <!--VERSION-->

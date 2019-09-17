@@ -111,7 +111,7 @@ private void writeVersionNameToIntroSlide(String versionName, String introSlideP
 
 void deployToKubernetes(String versionName) {
 
-    String imageName = "cloudogu/continuous-delivery-slides-example:${versionName}"
+    String imageName = "cloudogu/continuous-delivery-slides:${versionName}"
     def image = docker.build imageName
     docker.withRegistry('', 'hub.docker.com-cesmarvin') {
         image.push()
