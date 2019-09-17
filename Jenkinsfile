@@ -133,7 +133,11 @@ void printPdf() {
             error "PDF creation failed"
         }
 
-        docker.image('yukinying/chrome-headless-browser:77.0.3833.0').inside {
+        docker.image('yukinying/chrome-headless-browser:77.0.3833.0')
+                // Chromium writes to $HOME/local, so we need an entry in /etc/pwd for the current user
+                .mountJenkinsUser()
+                // Try to avoid OOM for larger presentations by setting larger shared memory
+                .inside("--shm-size=2G") {
 
             sh "/usr/bin/google-chrome-unstable --headless --no-sandbox --disable-gpu --print-to-pdf=${pdfPath} " +
                     "http://${revealIp}:8000/?print-pdf"
