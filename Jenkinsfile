@@ -38,14 +38,14 @@ node('docker') {
 
         stage('Build') {
             docker.image(nodeImageVersion)
-            // Avoid  EACCES: permission denied, mkdir '/.npm'
-                    .mountJenkinsUser()
-                    .inside {
-                        echo 'Building presentation'
-                        sh 'npm install'
-                        // Don't run tests, because we're not developing reveal here
-                        sh 'node_modules/grunt/bin/grunt package --skipTests'
-                    }
+              // Avoid  EACCES: permission denied, mkdir '/.npm'
+              .mountJenkinsUser()
+              .inside {
+                echo 'Building presentation'
+                sh 'npm install'
+                // Don't run tests, because we're not developing reveal here
+                sh 'node_modules/grunt/bin/grunt package --skipTests'
+            }
         }
 
         stage('package') {
@@ -126,9 +126,9 @@ void printPdf() {
             'npm run start') { revealContainer ->
 
         def revealIp = docker.findIp(revealContainer)
-        if (!revealIp) {
+        if (!revealIp || !waitForWebserver("http://${revealIp}:8000")) {
             echo "Warning: Couldn't deploy reveal presentation for PDF printing. "
-            echo "Printing docker log:"
+            echo "Docker log:"
             echo new Sh(this).returnStdOut("docker logs ${revealContainer.id}")
             error "PDF creation failed"
         }
@@ -176,4 +176,10 @@ String filterFile(String filePath, String expression, String replace) {
     sh "test -e ${filePath} || (echo Title slide ${filePath} not found && return 1)"
     sh "cat ${filePath} | sed 's/${expression}/${replace}/g' > ${filteredFilePath}"
     return filteredFilePath
+}
+
+boolean waitForWebserver(String url) {
+    echo "Waiting for website to become ready at ${url}"
+    int ret = sh (returnStatus: true, script: "wget --retry-connrefused --tries=30 -q --wait=1 ${url}")
+    return ret == 0
 }
