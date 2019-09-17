@@ -1,9 +1,9 @@
 # Welcome 
 
-to continuous-delivery-slides-example
+to continuous-delivery-slides
 
 <font color="black">
-    Version: 201909171618-63d7715-SNAPSHOT
+    Version: 201909171624-2c51109
 </font>
 
 Realised using [reveal.js](https://github.com/hakimel/reveal.js/).
