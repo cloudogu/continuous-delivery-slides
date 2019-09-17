@@ -46,7 +46,7 @@ metadata:
     kubernetes.io/ingress.class: traefik
 spec:
   rules:
-    - host: continuous-delivery-slides-example.cloudogu.com
+    - host: continuous-delivery-slides.cloudogu.com
       http:
         paths:
           - path: /
