@@ -1,10 +1,10 @@
 kind: Service 
 apiVersion: v1
 metadata:
-  name: cd-slides-example
+  name: cd-slides
 spec:
   selector:
-    app: cd-slides-example
+    app: cd-slides
   ports:
     - port: 80
       targetPort: 8080
@@ -13,20 +13,20 @@ spec:
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
-  name: cd-slides-example
+  name: cd-slides
 spec:
   selector:
     matchLabels:
-      app: cd-slides-example
+      app: cd-slides
   template:
     metadata:
       labels:
-        app: cd-slides-example
+        app: cd-slides
       annotations:
         kubernetes.io/change-cause: $IMAGE_NAME
     spec:
       containers:
-        - name: cd-slides-example
+        - name: cd-slides
           image: $IMAGE_NAME
           ports:
             - containerPort: 8080
@@ -41,7 +41,7 @@ spec:
 kind: Ingress
 apiVersion: extensions/v1beta1
 metadata:
-  name: cd-slides-example
+  name: cd-slides
   annotations:
     kubernetes.io/ingress.class: traefik
 spec:
@@ -51,5 +51,5 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: cd-slides-example
+              serviceName: cd-slides
               servicePort: 80
