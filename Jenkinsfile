@@ -20,7 +20,6 @@ node('docker') {
     ])
 
     def introSlidePath = 'docs/slides/01-intro.md'
-    pdfPath ='slides.pdf'
     nodeImageVersion = 'node:11.14.0-alpine'
 
     Git git = new Git(this, 'cesmarvin')
@@ -35,6 +34,7 @@ node('docker') {
         }
 
         String versionName = createVersion(mvn)
+        String pdfPath = createPdfName()
 
         stage('Build') {
             docker.image(nodeImageVersion)
@@ -58,7 +58,7 @@ node('docker') {
         }
 
         stage('print pdf') {
-            printPdf()
+            printPdf pdfPath
             archiveArtifacts pdfPath
         }
 
@@ -95,7 +95,11 @@ node('docker') {
 }
 
 String nodeImageVersion
-String pdfPath
+
+String createPdfName() {
+    String title = sh (returnStdout: true, script: "grep -r '<title>' index.html | sed 's/.*<title>\\(.*\\)<.*/\\1/'").trim()
+    return "${new Date().format('yyyy-MM-dd')}-${title}.pdf"
+}
 
 String createVersion(Maven mvn) {
     // E.g. "201708140933-1674930"
@@ -118,7 +122,7 @@ void writeVersionNameToIntroSlide(String versionName, String introSlidePath) {
     sh "mv $filteredIntro $introSlidePath"
 }
 
-void printPdf() {
+void printPdf(String pdfPath) {
     Docker docker = new Docker(this)
 
     docker.image(nodeImageVersion).withRun(
@@ -139,7 +143,7 @@ void printPdf() {
                 // Try to avoid OOM for larger presentations by setting larger shared memory
                 .inside("--shm-size=2G") {
 
-            sh "/usr/bin/google-chrome-unstable --headless --no-sandbox --disable-gpu --print-to-pdf=${pdfPath} " +
+            sh "/usr/bin/google-chrome-unstable --headless --no-sandbox --disable-gpu --print-to-pdf='${pdfPath}' " +
                     "http://${revealIp}:8000/?print-pdf"
         }
     }
