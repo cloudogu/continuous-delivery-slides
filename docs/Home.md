@@ -46,7 +46,7 @@ Better use merge here, because rebase leads to changed history and no option to 
 
 # Print slides / create PDF 
 
-## Official
+## Official / manual
 
 * In Chrome: http://localhost:8000/?print-pdf
 * Ctrl + P
@@ -55,11 +55,21 @@ Better use merge here, because rebase leads to changed history and no option to 
 
 See [reveal.js README](https://github.com/hakimel/reveal.js/#pdf-export)
 
-## An approach for automation
+Note that [internal links](https://github.com/hakimel/reveal.js/#internal-links) only work in the PDF using the following:
 
-With headless Chrome (e.g. in Docker Container): 
+```html
+<!-- works -->
+<a href="#some-slide">Link</a> 
+<!-- doesn't -->
+<a href="#/some-slide">Link</a> 
+```
+## Continuously delivery
 
-`chromium-browser --headless --disable-gpu --virtual-time-budget=1000 --print-to-pdf=cd-slides-example.pdf "http://localhost:8000/?print-pdf"`  
+The `Jenkinsfile` contains a stage that automatically creates a PDF on push.
+The PDF is attached to the Jenkins job.
 
-(works with Chromium 63.0.3239.132)  
-See also https://github.com/cognitom/paper-css/issues/13
+Compared to the one manually created there are at least the following differences:
+
+* Video thumbnail not displayed
+* Header and footer show "invisible" texts, that can be seen when marking the text
+* Backgrounds are also exported (e.g. when using the `cloudogu-black` theme)
