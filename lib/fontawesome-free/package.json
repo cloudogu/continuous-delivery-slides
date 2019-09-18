@@ -2,7 +2,7 @@
   "_args": [
     [
       "@fortawesome/fontawesome-free@5.8.1",
-      "/tmp/workspace/_continuous-delivery-slides_PR-3"
+      "/tmp/workspace/livery-slides_continuous_handout"
     ]
   ],
   "_from": "@fortawesome/fontawesome-free@5.8.1",
@@ -27,7 +27,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/@fortawesome/fontawesome-free/-/fontawesome-free-5.8.1.tgz",
   "_spec": "5.8.1",
-  "_where": "/tmp/workspace/_continuous-delivery-slides_PR-3",
+  "_where": "/tmp/workspace/livery-slides_continuous_handout",
   "author": {
     "name": "Dave Gandy",
     "email": "dave@fontawesome.com",
