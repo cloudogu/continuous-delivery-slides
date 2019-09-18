@@ -3,7 +3,7 @@
 to continuous-delivery-slides
 
 <font color="black">
-    Version: 201909180856-eddcbf8-SNAPSHOT
+    Version: 201909180900-3330adc-SNAPSHOT
 </font>
 
 Realised using [reveal.js](https://github.com/hakimel/reveal.js/).
