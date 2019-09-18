@@ -65,8 +65,10 @@ Note that [internal links](https://github.com/hakimel/reveal.js/#internal-links)
 ```
 ## Continuously delivery
 
-The `Jenkinsfile` contains a stage that automatically creates a PDF on push.
-The PDF is attached to the Jenkins job.
+* The `Jenkinsfile` automatically creates a PDF on git push.
+* The `<title>` of `index.html` is used as file name
+* The PDF is attached to the Jenkins job. See `https://<jenkins-url>/job/<job-url>/lastSuccessfulBuild/artifact/`
+* It's also deployed with the web-based application. See `https://<your-url>/<title of index.html>.pdf`
 
 Compared to the one manually created there are at least the following differences:
 

@@ -10,8 +10,9 @@ Web-based presentation that features
 * Cloudogu corporate design via CSS
 
 You can view the latest version of the presentation 
-* [on the web](https://cloudogu.github.io/continuous-delivery-slides/)  
-* [as PDF](https://oss.cloudogu.com/jenkins/job/cloudogu-github/job/continuous-delivery-slides/job/master/lastSuccessfulBuild/artifact/slides.pdf)
+* [as web-based presentation](https://cloudogu.github.io/continuous-delivery-slides/) and
+* as PDF [on the web](https://cloudogu.github.io/continuous-delivery-slides/Continuous%20Delivery%20Slides.pdf)
+  or [on Jenkins](https://oss.cloudogu.com/jenkins/job/cloudogu-github/job/continuous-delivery-slides/job/continuous_handout/lastSuccessfulBuild/artifact/)
 
 With a git-based wiki such as [Smeagol](https://github.com/cloudogu/smeagol) 
 (see [Blog Post](https://cloudogu.com/blog/smeagol)) you can edit the slides conveniently from the browser. A change there will trigger the  the [Jenkins](https://jenkins.io/) pipeline that deploys to 

@@ -60,6 +60,8 @@ node('docker') {
         stage('print pdf') {
             printPdf pdfPath
             archiveArtifacts pdfPath
+            // Deploy PDF next to the app, use a constant name for the PDF for easier URLs.
+            sh "mv '${pdfPath}' 'dist/${createPdfName(false)}'"
         }
 
         stage('Deploy GH Pages') {
@@ -96,9 +98,14 @@ node('docker') {
 
 String nodeImageVersion
 
-String createPdfName() {
+String createPdfName(boolean includeDate = true) {
     String title = sh (returnStdout: true, script: "grep -r '<title>' index.html | sed 's/.*<title>\\(.*\\)<.*/\\1/'").trim()
-    return "${new Date().format('yyyy-MM-dd')}-${title}.pdf"
+    String pdfName = '';
+    if (includeDate) {
+        pdfName = "${new Date().format('yyyy-MM-dd')}-"
+    }
+    pdfName += "${title}.pdf"
+    return pdfName
 }
 
 String createVersion(Maven mvn) {
