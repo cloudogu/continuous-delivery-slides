@@ -1,7 +1,7 @@
 #!groovy
 
 //Keep this version in sync with the one used in Maven.pom-->
-@Library('github.com/cloudogu/ces-build-lib@d57af485')
+@Library('github.com/cloudogu/ces-build-lib@9857cf1')
 import com.cloudogu.ces.cesbuildlib.*
 
 node('docker') {
@@ -20,11 +20,11 @@ node('docker') {
     ])
 
     def introSlidePath = 'docs/slides/01-intro.md'
-    nodeImageVersion = 'node:11.14.0-alpine'
+    nodeImageVersion = 'node:11.15.0-alpine'
 
     Git git = new Git(this, 'cesmarvin')
     Docker docker = new Docker(this)
-    Maven mvn = new MavenInDocker(this, "3.5.0-jdk-8")
+    Maven mvn = new MavenInDocker(this, "3.6.2-jdk-8")
 
     catchError {
 
