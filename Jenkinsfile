@@ -196,6 +196,6 @@ String filterFile(String filePath, String expression, String replace) {
 boolean waitForWebserver(String url) {
     echo "Waiting for website to become ready at ${url}"
     // Output to stdout and discard (O- >/dev/null) because we don't want the file we only want to know if it's available
-    int ret = sh (returnStatus: true, script: "wget O- --retry-connrefused --tries=30 -q --wait=1 ${url} &> /dev/null")
+    int ret = sh (returnStatus: true, script: "wget -O- --retry-connrefused --tries=30 -q --wait=1 ${url} &> /dev/null")
     return ret == 0
 }
