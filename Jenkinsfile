@@ -15,7 +15,9 @@ node('docker') {
                     booleanParam(name: 'deployToNexus', defaultValue: false,
                             description: 'Deploying to Nexus tages ~10 Min since Nexus 3. That\'s why we skip it be default'),
                     booleanParam(name: 'deployToK8s', defaultValue: false,
-                            description: 'Deploys to Kubernetes. We deploy to GitHub pages, so skip deploying to k8s by default.')
+                            description: 'Deploys to Kubernetes. We deploy to GitHub pages, so skip deploying to k8s by default.'),
+                    booleanParam(defaultValue: false, name: 'forceDeployGhPages',
+                            description: 'GH Pages are deployed on Master Branch only. If this box is checked it\'s deployed no what Branch is built.')
             ])
     ])
 
@@ -25,6 +27,8 @@ node('docker') {
     Git git = new Git(this, 'cesmarvin')
     Docker docker = new Docker(this)
     Maven mvn = new MavenInDocker(this, "3.6.2-jdk-8")
+    forceDeployGhPages = Boolean.valueOf(params.forceDeployGhPages)
+
 
     catchError {
 
@@ -67,7 +71,7 @@ node('docker') {
         }
 
         stage('Deploy GH Pages') {
-            if (env.BRANCH_NAME == 'master') {
+            if (env.BRANCH_NAME == 'master' || forceDeployGhPages) {
                 git.pushGitHubPagesBranch('dist', versionName)
             } else {
                 echo "Skipping deploy to GH pages, because not on master branch"
