@@ -60,6 +60,8 @@ node('docker') {
         stage('print pdf') {
             printPdf pdfPath
             archiveArtifacts pdfPath
+            // Make world readable (useful when accessing from docker)
+            sh "chmod o+r '${pdfPath}'"
             // Deploy PDF next to the app, use a constant name for the PDF for easier URLs.
             sh "mv '${pdfPath}' 'dist/${createPdfName(false)}'"
         }
@@ -159,10 +161,14 @@ void printPdf(String pdfPath) {
 void deployToKubernetes(String versionName) {
 
     String imageName = "cloudogu/continuous-delivery-slides:${versionName}"
-    def image = docker.build imageName
-    docker.withRegistry('', 'hub.docker.com-cesmarvin') {
-        image.push()
-        image.push('latest')
+
+    sh 'cp Dockerfile dist/ && cp .dockerignore dist/'
+    dir ('dist') {
+        def image = docker.build imageName
+        docker.withRegistry('', 'hub.docker.com-cesmarvin') {
+            image.push()
+            image.push('latest')
+        }
     }
 
     withCredentials([file(credentialsId: 'kubeconfig-oss-deployer', variable: 'kubeconfig')]) {
