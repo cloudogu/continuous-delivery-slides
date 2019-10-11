@@ -8,6 +8,8 @@ Web-based presentation that features
 * Jenkins continuous delivery pipeline that deploys to Nexus repo, GitHub Pages and Kubernetes,
 * Cloudogu corporate design via CSS
 
+See also our [Blog Post](https://cloudogu.com/en/blog/continuous-delivery-with-revealjs) on this topic.
+
 With a git-based wiki such as [Smeagol](https://github.com/cloudogu/smeagol) 
 (see [Blog Post](https://cloudogu.com/blog/smeagol)) you can edit the slides conveniently from the browser. A change there will trigger the  the [Jenkins](https://jenkins.io/) pipeline that deploys to 
 * [Sonatype Nexus](https://www.sonatype.com/nexus-repository-oss) or 
