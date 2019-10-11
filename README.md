@@ -9,6 +9,8 @@ Web-based presentation that features
 * It also creates a PDF export of the slides.
 * Cloudogu corporate design via CSS
 
+See also our [Blog Post](https://cloudogu.com/en/blog/continuous-delivery-with-revealjs) on this topic.
+
 You can view the latest version of the presentation 
 * [as web-based presentation](https://cloudogu.github.io/continuous-delivery-slides/) and
 * as PDF [on the web](https://cloudogu.github.io/continuous-delivery-slides/Continuous%20Delivery%20Slides.pdf)
