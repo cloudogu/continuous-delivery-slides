@@ -65,7 +65,7 @@ node('docker') {
             printPdf pdfPath
             archiveArtifacts pdfPath
             // Make world readable (useful when accessing from docker)
-            sh "chmod o+r '${pdfPath}'"
+            sh "chmod og+r '${pdfPath}'"
             // Deploy PDF next to the app, use a constant name for the PDF for easier URLs.
             sh "mv '${pdfPath}' 'dist/${createPdfName(false)}'"
         }
