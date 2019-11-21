@@ -3,22 +3,16 @@
 to continuous-delivery-slides
 
 <font color="black">
-    Version: 201910112150-de4ce36-SNAPSHOT
+    Version: 201911211240-3975b52
 </font>
 
 Realised using [reveal.js](https://github.com/hakimel/reveal.js/).
 
 Write your slides in [GitHub-flavored markdown](https://guides.github.com/features/mastering-markdown/).
 
-
-<h2>PDF Version<a href="Continuous%20Delivery%20Slides.pdf">
-   <i class="far fa-file-pdf"></i>
-</a></h2>
-
-
 ## Hotkeys
 
-* `S` show Speaker Notes t
+* `S` show Speaker Notes 
 * `?` show all Hotkeys 
 * `Esc` show slide overview ("grid")
 * Cursors: Navigation (on slides "grid")
