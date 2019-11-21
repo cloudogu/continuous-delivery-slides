@@ -80,6 +80,8 @@ ul, ol, div, p {
 	position: relative;
 	overflow: hidden;
 	z-index: 1;
+
+	page-break-after: always;
 }
 
 .reveal .slides section {
@@ -123,7 +125,7 @@ ul, ol, div, p {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 86%;
+	height: 100%;
 	z-index: auto !important;
 }
 
