@@ -1,7 +1,7 @@
 #!groovy
 
 //Keep this version in sync with the one used in Maven.pom-->
-@Library('github.com/cloudogu/ces-build-lib@d57af485')
+@Library('github.com/cloudogu/ces-build-lib@b49dce93')
 import com.cloudogu.ces.cesbuildlib.*
 
 node('docker') {
@@ -15,18 +15,22 @@ node('docker') {
                     booleanParam(name: 'deployToNexus', defaultValue: false,
                             description: 'Deploying to Nexus tages ~10 Min since Nexus 3. That\'s why we skip it be default'),
                     booleanParam(name: 'deployToK8s', defaultValue: false,
-                            description: 'Deploys to Kubernetes. We deploy to GitHub pages, so skip deploying to k8s by default.')
+                            description: 'Deploys to Kubernetes. We deploy to GitHub pages, so skip deploying to k8s by default.'),
+                    booleanParam(defaultValue: false, name: 'forceDeployGhPages',
+                            description: 'GH Pages are deployed on Master Branch only. If this box is checked it\'s deployed no what Branch is built.')
             ])
     ])
 
     def introSlidePath = 'docs/slides/01-intro.md'
+    nodeImageVersion = 'node:11.15.0-alpine'
 
     Git git = new Git(this, 'cesmarvin')
     Docker docker = new Docker(this)
+    Maven mvn = new MavenInDocker(this, "3.6.2-jdk-8")
+    forceDeployGhPages = Boolean.valueOf(params.forceDeployGhPages)
+
 
     catchError {
-
-        Maven mvn = new MavenInDocker(this, "3.5.0-jdk-8")
 
         stage('Checkout') {
             checkout scm
@@ -34,9 +38,10 @@ node('docker') {
         }
 
         String versionName = createVersion(mvn)
+        String pdfPath = createPdfName()
 
         stage('Build') {
-            docker.image('node:11.14.0-alpine')
+            docker.image(nodeImageVersion)
               // Avoid  EACCES: permission denied, mkdir '/.npm'
               .mountJenkinsUser()
               .inside {
@@ -56,8 +61,17 @@ node('docker') {
             writeVersionNameToIntroSlide(versionName, introSlidePath)
         }
 
+        stage('print pdf') {
+            printPdf pdfPath
+            archiveArtifacts pdfPath
+            // Make world readable (useful when accessing from docker)
+            sh "chmod og+r '${pdfPath}'"
+            // Deploy PDF next to the app, use a constant name for the PDF for easier URLs.
+            sh "mv '${pdfPath}' 'dist/${createPdfName(false)}'"
+        }
+
         stage('Deploy GH Pages') {
-            if (env.BRANCH_NAME == 'master') {
+            if (env.BRANCH_NAME == 'master' || forceDeployGhPages) {
                 git.pushGitHubPagesBranch('dist', versionName)
             } else {
                 echo "Skipping deploy to GH pages, because not on master branch"
@@ -92,6 +106,18 @@ node('docker') {
     mailIfStatusChanged(git.commitAuthorEmail)
 }
 
+String nodeImageVersion
+
+String createPdfName(boolean includeDate = true) {
+    String title = sh (returnStdout: true, script: "grep -r '<title>' index.html | sed 's/.*<title>\\(.*\\)<.*/\\1/'").trim()
+    String pdfName = '';
+    if (includeDate) {
+        pdfName = "${new Date().format('yyyy-MM-dd')}-"
+    }
+    pdfName += "${title}.pdf"
+    return pdfName
+}
+
 String createVersion(Maven mvn) {
     // E.g. "201708140933-1674930"
     String versionName = "${new Date().format('yyyyMMddHHmm')}-${new Git(this).commitHashShort}"
@@ -106,20 +132,51 @@ String createVersion(Maven mvn) {
     return versionName
 }
 
-private void writeVersionNameToIntroSlide(String versionName, String introSlidePath) {
+void writeVersionNameToIntroSlide(String versionName, String introSlidePath) {
     def distIntro = "dist/${introSlidePath}"
     String filteredIntro = filterFile(distIntro, "<!--VERSION-->", "Version: $versionName")
     sh "cp $filteredIntro $distIntro"
     sh "mv $filteredIntro $introSlidePath"
 }
 
+void printPdf(String pdfPath) {
+    Docker docker = new Docker(this)
+
+    docker.image(nodeImageVersion).withRun(
+            "-v ${WORKSPACE}:/workspace -w /workspace",
+            'npm run start') { revealContainer ->
+
+        def revealIp = docker.findIp(revealContainer)
+        if (!revealIp || !waitForWebserver("http://${revealIp}:8000")) {
+            echo "Warning: Couldn't deploy reveal presentation for PDF printing. "
+            echo "Docker log:"
+            echo new Sh(this).returnStdOut("docker logs ${revealContainer.id}")
+            error "PDF creation failed"
+        }
+
+        docker.image('yukinying/chrome-headless-browser:77.0.3833.0')
+                // Chromium writes to $HOME/local, so we need an entry in /etc/pwd for the current user
+                .mountJenkinsUser()
+                // Try to avoid OOM for larger presentations by setting larger shared memory
+                .inside("--shm-size=2G") {
+
+            sh "/usr/bin/google-chrome-unstable --headless --no-sandbox --disable-gpu --print-to-pdf='${pdfPath}' " +
+                    "http://${revealIp}:8000/?print-pdf"
+        }
+    }
+}
+
 void deployToKubernetes(String versionName) {
 
     String imageName = "cloudogu/continuous-delivery-slides:${versionName}"
-    def image = docker.build imageName
-    docker.withRegistry('', 'hub.docker.com-cesmarvin') {
-        image.push()
-        image.push('latest')
+
+    sh 'cp Dockerfile dist/ && cp .dockerignore dist/'
+    dir ('dist') {
+        def image = docker.build imageName
+        docker.withRegistry('', 'hub.docker.com-cesmarvin') {
+            image.push()
+            image.push('latest')
+        }
     }
 
     withCredentials([file(credentialsId: 'kubeconfig-oss-deployer', variable: 'kubeconfig')]) {
@@ -148,4 +205,11 @@ String filterFile(String filePath, String expression, String replace) {
     sh "test -e ${filePath} || (echo Title slide ${filePath} not found && return 1)"
     sh "cat ${filePath} | sed 's/${expression}/${replace}/g' > ${filteredFilePath}"
     return filteredFilePath
+}
+
+boolean waitForWebserver(String url) {
+    echo "Waiting for website to become ready at ${url}"
+    // Output to stdout and discard (O- >/dev/null) because we don't want the file we only want to know if it's available
+    int ret = sh (returnStatus: true, script: "wget -O- --retry-connrefused --tries=30 -q --wait=1 ${url} &> /dev/null")
+    return ret == 0
 }

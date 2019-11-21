@@ -10,3 +10,4 @@
 !plugin/**
 !favicon.ico
 !exercises
+!*.pdf
