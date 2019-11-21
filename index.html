@@ -39,10 +39,26 @@
 			// More info about config & dependencies:
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
+			let presenterMode = false;
 			Reveal.initialize({
 				history: true,
 				// Use the default (h.v), because the printed version will always have this anyway
 				slideNumber: 'true',
+				// Support for presenters - press comma to toggle presenterMode mode, i.e. ⬅/➡️ keys map to
+				// prev/next slide, instead of left/right
+				keyboard: {
+					188: function() {
+						if (!presenterMode) {
+							Reveal.addKeyBinding( { keyCode: 39 }, 'next');
+							Reveal.addKeyBinding( { keyCode: 37 }, 'prev');
+						} else {
+							Reveal.removeKeyBinding( 37 );
+							Reveal.removeKeyBinding( 39 );
+						}
+						presenterMode=!presenterMode;
+						console.log(`Switched to presenter mode: ${presenterMode}`);
+					}
+				},
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },

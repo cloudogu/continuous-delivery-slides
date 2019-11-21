@@ -7,6 +7,10 @@ Web-based presentation that features
 * reveal.js with example slides in markdown,
 * Jenkins continuous delivery pipeline that deploys to Nexus repo, GitHub Pages and Kubernetes.
 * It also creates a PDF export of the slides.
+* Toggle "presenter remote" mode using the `,` key.  Off by default.
+  * This helps for presenter remotes that use the left/right key, instead of space and back.  
+  * Workaround: Map left/right keys to next/prev slide functions.
+  * Disadvantage: left and right keys are also mapped on the keyboard. But you can toggle back to normal using the `,` key.
 * Cloudogu corporate design via CSS
 
 See also our [Blog Post](https://cloudogu.com/en/blog/continuous-delivery-with-revealjs) on this topic.
