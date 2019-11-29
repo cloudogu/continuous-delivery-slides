@@ -39,7 +39,6 @@
 			// More info about config & dependencies:
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
-			let presenterMode = false;
 			Reveal.initialize({
 				history: true,
 				// Use the default (h.v), because the printed version will always have this anyway
@@ -47,17 +46,7 @@
 				// Support for presenters - press comma to toggle presenterMode mode, i.e. ⬅/➡️ keys map to
 				// prev/next slide, instead of left/right
 				keyboard: {
-					188: function() {
-						if (!presenterMode) {
-							Reveal.addKeyBinding( { keyCode: 39 }, 'next');
-							Reveal.addKeyBinding( { keyCode: 37 }, 'prev');
-						} else {
-							Reveal.removeKeyBinding( 37 );
-							Reveal.removeKeyBinding( 39 );
-						}
-						presenterMode=!presenterMode;
-						console.log(`Switched to presenter mode: ${presenterMode}`);
-					}
+					188: () => setPresenterMode(true)
 				},
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
@@ -67,6 +56,25 @@
 					{ src: 'plugin/highlight/highlight.js', async: true }
 				]
 			});
+
+			setPresenterMode(false);
+
+			function setPresenterMode(toggle) {
+				const storage = localStorage;
+				const storageKey = 'presenterMode';
+				if (toggle) {
+					storage.setItem(storageKey, JSON.stringify(!JSON.parse(storage.getItem(storageKey))));
+				}
+				const presenterMode = JSON.parse(storage.getItem(storageKey));
+				if (presenterMode) {
+					Reveal.addKeyBinding({keyCode: 39}, 'next');
+					Reveal.addKeyBinding({keyCode: 37}, 'prev');
+				} else {
+					Reveal.removeKeyBinding(37);
+					Reveal.removeKeyBinding(39);
+				}
+				console.log(`Set presenter mode: ${storage.getItem(storageKey)}`);
+			}
 		</script>
 	</body>
 </html>
