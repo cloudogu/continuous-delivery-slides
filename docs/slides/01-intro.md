@@ -1,11 +1,15 @@
+<!-- .slide: class="title"  -->
+<!-- .slide: data-background-image="css/images/title.svg"  -->
 # Welcome 
-
 to continuous-delivery-slides
 
 <font color="black">
-    Version: 201911291703-43c8de6
+    Version: 201911291812-8cc9168
 </font>
 
+
+
+### Slide 1
 Realised using [reveal.js](https://github.com/hakimel/reveal.js/).
 
 Write your slides in [GitHub-flavored markdown](https://guides.github.com/features/mastering-markdown/).
