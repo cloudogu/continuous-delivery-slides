@@ -11,7 +11,8 @@ Web-based presentation that features
   * This helps for presenter remotes that use the left/right key, instead of space and back.  
   * Workaround: Map left/right keys to next/prev slide functions.
   * Disadvantage: left and right keys are also mapped on the keyboard. But you can toggle back to normal using the `,` key.
-* Cloudogu corporate design via CSS
+* Excluding slides from print via `<section excludeLocation="?print-pdf" ..>` in `index.html`
+* Cloudogu corporate design theme
 
 See also our [Blog Post](https://cloudogu.com/en/blog/continuous-delivery-with-revealjs) on this topic.
 
