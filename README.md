@@ -12,6 +12,9 @@ Web-based presentation that features
   * Workaround: Map left/right keys to next/prev slide functions.
   * Disadvantage: left and right keys are also mapped on the keyboard. But you can toggle back to normal using the `,` key.
 * Excluding slides from print via `<section excludeLocation="?print-pdf" ..>` in `index.html`
+* Print speaker notes on separate page - can be used to provide PDF with more info to the audience while keeping the 
+  slides clean.  
+  Can be switched off in `index.html` by setting `showNotesForPrinting = false`.    
 * Cloudogu corporate design theme
 
 See also our [Blog Post](https://cloudogu.com/en/blog/continuous-delivery-with-revealjs) on this topic.

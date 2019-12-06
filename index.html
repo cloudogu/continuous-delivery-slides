@@ -37,7 +37,10 @@
 		<script src="lib/twemoji/twemoji.min.js"></script>
 
 		<script>
+			const showNotesForPrinting = true;
+
 			evaluateExcludeLocation();
+			const showNotes = showNotesForPrinting && window.location.search.startsWith('?print-pdf') ? "separate-page" : undefined;
 			// More info about config & dependencies:
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
@@ -50,6 +53,7 @@
 				keyboard: {
 					188: () => setPresenterMode(true)
 				},
+				showNotes: showNotes,
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
