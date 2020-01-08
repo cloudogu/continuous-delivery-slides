@@ -4,7 +4,7 @@
 to continuous-delivery-slides
 
 <font color="black">
-    Version: 202001081733-bc0404a
+    Version: 202001081737-bc0404a
 </font>
 
 
