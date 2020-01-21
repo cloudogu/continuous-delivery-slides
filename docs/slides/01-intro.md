@@ -22,11 +22,14 @@ Write your slides in [GitHub-flavored markdown](https://guides.github.com/featur
 
 ## Hotkeys
 
-* `S` show Speaker Notes t
-* `?` show all Hotkeys 
-* `Esc` show slide overview ("grid")
+* `S`: show Speaker Notes 
+* `?`: show all Hotkeys 
+* `Esc`: show slide overview ("grid")
 * Cursors: Navigation (on slides "grid")
-* `Space` next slide
+* `Space`: next slide
+* `,`: toggle presenter Mode (➡ becomes next slide - helpful for some presenters)
+* `Ctrl` + `Shift` + `F`: Search slides
+* `Ctrl` + `Alt` + Click: Zoom
 
 Note:
 * Speaker notes go here 
