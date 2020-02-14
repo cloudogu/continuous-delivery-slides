@@ -1,3 +1,5 @@
+![](https://cloudogu.com/assets/blog/2019/revealJS-711db5dd3e495fe26dda7ad44104542b1fceb456c11700a773a2f158bf2c8251.png)
+
 # continuous-delivery-slides
 [![Build Status](https://oss.cloudogu.com/jenkins/buildStatus/icon?job=cloudogu-github%2Fcontinuous-delivery-slides%2Fmaster)](https://oss.cloudogu.com/jenkins/job/cloudogu-github/job/continuous-delivery-slides/job/master/)
 [![](https://images.microbadger.com/badges/image/cloudogu/continuous-delivery-slides.svg)](https://hub.docker.com/r/cloudogu/continuous-delivery-slides)
@@ -17,7 +19,9 @@ Web-based presentation that features
   Can be switched off in `index.html` by setting `showNotesForPrinting = false`.    
 * Cloudogu corporate design theme
 
-See also our [Blog Post](https://cloudogu.com/en/blog/continuous-delivery-with-revealjs) on this topic.
+See also our Blog Posts: Docs As Code - Continuous Delivery of Presentations with reveal.js and Jenkins
+* [Part 1 - Intro and Deployment to GitHub Pages 🇬🇧](https://cloudogu.com/en/blog/continuous-delivery-with-revealjs) | [🇩🇪](https://cloudogu.com/de/blog/continuous-delivery-mit-revealjs)
+* [Part 2 - Deployment to Nexus and Kubernetes 🇬🇧](https://cloudogu.com/en/blog/continuous-delivery-with-revealjs-part-2) | [🇩🇪](https://cloudogu.com/de/blog/continuous-delivery-mit-revealjs-teil-2)
 
 You can view the latest version of the presentation 
 * [as web-based presentation](https://cloudogu.github.io/continuous-delivery-slides/) and
