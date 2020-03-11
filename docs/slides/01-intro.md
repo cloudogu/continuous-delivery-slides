@@ -52,7 +52,7 @@ Emojis 👤 🛠️ 🚢 ❤ 👤 🌐 📋 🐋 📦 🐕 🐈 🇬🇧 🇩�
     <i class='fab fa-twitter'></i>
     twitter.com/cloudogu
 </a>
-
+<br/>
 <a href='https://github.com/cloudogu' class="social" target="_blank">
     <i class='fab fa-github'></i>
     github.com/cloudogu
