@@ -45,6 +45,7 @@
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				hash: true,
 				history: true,
 				// Use the default (h.v), because the printed version will always have this anyway
 				slideNumber: 'true',
@@ -58,10 +59,10 @@
 					// Interpret Markdown in <section> elements
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/highlight/highlight.js'},
 					// Speaker notes
 					{ src: 'plugin/notes/notes.js', async: true },
 					// Syntax highlight for <code> elements
-					{ src: 'plugin/highlight/highlight.js', async: true },
 					// Zoom in and out with Ctrl+Alt+click
 					{ src: 'plugin/zoom-js/zoom.js', async: true },
 					// Search slides  with Ctrl+Shift+f

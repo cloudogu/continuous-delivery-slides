@@ -4,7 +4,7 @@
 to continuous-delivery-slides
 
 <font color="black">
-    Version: 202002141100-f76cfaf
+    Version: 202003111453-71dadd7
 </font>
 
 
@@ -52,7 +52,7 @@ Emojis 👤 🛠️ 🚢 ❤ 👤 🌐 📋 🐋 📦 🐕 🐈 🇬🇧 🇩�
     <i class='fab fa-twitter'></i>
     twitter.com/cloudogu
 </a>
-
+<br/>
 <a href='https://github.com/cloudogu' class="social" target="_blank">
     <i class='fab fa-github'></i>
     github.com/cloudogu
