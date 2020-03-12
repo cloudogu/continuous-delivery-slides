@@ -319,6 +319,12 @@ body {
   font-size: 18px !important;
 }
 
+.reveal .footer {
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+}
+
 /** From League Plugin */
 html.black-gradient body {
   background: #1c1e20;
