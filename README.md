@@ -4,6 +4,8 @@
 [![Build Status](https://oss.cloudogu.com/jenkins/buildStatus/icon?job=cloudogu-github%2Fcontinuous-delivery-slides%2Fmaster)](https://oss.cloudogu.com/jenkins/job/cloudogu-github/job/continuous-delivery-slides/job/master/)
 [![](https://images.microbadger.com/badges/image/cloudogu/continuous-delivery-slides.svg)](https://hub.docker.com/r/cloudogu/continuous-delivery-slides)
 
+**Note: This repository evolved into [cloudogu/reveal.js-docker](https://github.com/cloudogu/reveal.js-docker) and is no longer maintained here.**
+
 Web-based presentation that features
 
 * reveal.js with example slides in markdown,
